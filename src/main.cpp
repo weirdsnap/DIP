@@ -23,6 +23,8 @@
 //     void print();
 // };
 
+Tarray& scale(Tarray src, int height, int width);
+
 int main() {
     Tarray a(3,3);
     for (int i = 0; i < 3; i++) {
