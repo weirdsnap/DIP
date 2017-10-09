@@ -6,18 +6,18 @@
 Tarray& scale(Tarray src, int height, int width);
 
 int main() {
-    Tarray a(3,3);
-    float ** b = new float*[3];
+    Tarray a(5,5);
+    float ** b = new float*[5];
 
-    for (int i = 0; i < 3; i++) {
-        b[i] = new float[3];
-        for (int j = 0; j < 3; j++) {
+    for (int i = 0; i < 5; i++) {
+        b[i] = new float[5];
+        for (int j = 0; j < 5; j++) {
             a[i][j] = i + j;
-            b[i][j] = 1.0 / 9;
+            b[i][j] = 1.0 / 25;
         }
     }
     a.print();
-    a.jj(3, b);
+    a.jj(5, b);
     a.print();
     return 0;
 }

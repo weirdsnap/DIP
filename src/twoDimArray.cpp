@@ -6,16 +6,14 @@ twoDimArray& twoDimArray::scale(int height, int width) {
 	twoDimArray &src = *(this);
 	int X, Y;
 	float srcX, srcY, u, v;
-	//����Ŵ���
 	//float scaleH = height / src.getHeight();
 	//float scaleW = width / src.getWidth();
 	float scaleH = (float)(height - 1) / (src.getHeight() - 1);
 	float scaleW = (float)(width - 1) / (src.getWidth() - 1);
-	//�����¶�ά����
 	twoDimArray& dst = *(new twoDimArray(height, width));
-	//������������и�ֵ
+	
 	for (int i = 0; i < height; i++) {
-		//����Ŀ�����ض�Ӧ������Դ����yλ��
+		
 		srcY = (float)i / scaleH;
 		Y = srcY;
 		v = srcY - Y;
@@ -72,6 +70,20 @@ twoDimArray& twoDimArray::jj(int size,float** m){
 		}
 	}
 	return src;
+}
+
+twoDimArray& twoDimArray::zt(int * zft) {
+	twoDimArray* dst = new twoDimArray(256,256);
+	for (int i = 0; i < 256; i ++) {
+		int j;
+		for (j = 0 ;j < zft[i]; j++) {
+			(*dst)[j][i] = 255;
+		}
+		for (;j < 256 ; j++) {
+			(*dst)[j][i] = 0;
+		}
+	}
+	return *dst;
 }
 
 

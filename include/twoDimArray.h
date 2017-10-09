@@ -22,6 +22,7 @@ public:
 	}
 	twoDimArray& quantize(int level);
 
+	twoDimArray& zt(int * zft);
 	twoDimArray& jj(int size,float** m);
 		
 	void print();
