@@ -6,26 +6,26 @@ twoDimArray& twoDimArray::scale(int height, int width) {
 	twoDimArray &src = *(this);
 	int X, Y;
 	float srcX, srcY, u, v;
-	//¼ÆËã·Å´ó±¶Êý
+	//ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½
 	//float scaleH = height / src.getHeight();
 	//float scaleW = width / src.getWidth();
 	float scaleH = (float)(height - 1) / (src.getHeight() - 1);
 	float scaleW = (float)(width - 1) / (src.getWidth() - 1);
-	//´´½¨ÐÂ¶þÎ¬Êý×é
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Â¶ï¿½Î¬ï¿½ï¿½ï¿½ï¿½
 	twoDimArray& dst = *(new twoDimArray(height, width));
-	//±éÀúÐÂÊý×é½øÐÐ¸³Öµ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¸ï¿½Öµ
 	for (int i = 0; i < height; i++) {
-		//¼ÆËãÄ¿±êÏñËØ¶ÔÓ¦µÄÐéÄâÔ´ÏñËØyÎ»ÖÃ
+		//ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½yÎ»ï¿½ï¿½
 		srcY = (float)i / scaleH;
 		Y = srcY;
 		v = srcY - Y;
 		for (int j = 0; j < width; j++) {
-			//¼ÆËãÄ¿±êÏñËØ¶ÔÓ¦µÄÐéÄâÔ´ÏñËØxÎ»ÖÃ
+			//ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½xÎ»ï¿½ï¿½
 			srcX = (float)j / scaleW;
 			X = srcX;
 			u = srcX - X;
-			//Í¨¹ý(X,Y),(X,Y+1),(X+1,Y),(X+1,Y+1)ËÄµãÈ·¶¨Ä¿±êµãÏñËØ
-			//µ±±ßÔµÊ±¿ÉÄÜÔ½½ç½øÐÐÅÐ¶Ï
+			//Í¨ï¿½ï¿½(X,Y),(X,Y+1),(X+1,Y),(X+1,Y+1)ï¿½Äµï¿½È·ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			//ï¿½ï¿½ï¿½ï¿½ÔµÊ±ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
 			dst[i][j] = src[Y][X] * (1.0 - u) * (1.0 - v)
 				+ src[Y][X + 1] * u * (1.0 - v)
 				+ ((Y + 1) != src.getHeight() ? src[Y + 1][X] : src[Y][X]) * (1.0 - u) * v
@@ -47,11 +47,41 @@ twoDimArray& twoDimArray::quantize(int level) {
 	return src;
 }
 
+twoDimArray& twoDimArray::jj(int size,float** m){
+	if (size % 2 == 0){
+		//ä»…å…è®¸å¥‡æ•°
+	}
+	twoDimArray& src = *(this);
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			float sum = 0;
+			for (int k = 0; k < size; k++) {
+				for (int l = 0; l < size; l++) {
+					//è¶Šç•Œå¤„ç†ï¼ŒæŠŠå¤–é¢çš„ç‚¹å½“ä½œ0ï¼Œæ‰€ä»¥å¯¹sumä¸ä¼šæœ‰ä»»ä½•å½±å“ï¼Œç›´æŽ¥continue
+					if (i + k - size / 2 < 0 || i + k - size / 2 >=height) {
+						continue;
+					}
+					if (j + l - size / 2 < 0 || j + l - size / 2 >= width) {
+						continue;
+					}
+					sum += 1.0 * src[i + k - size / 2][j + l - size / 2] * m[k][l];
+					//printf("%f", sum);
+				}
+			}
+			src[i][j] = sum + 0.5;
+		}
+	}
+	return src;
+}
+
+
 twoDimArray::twoDimArray(int height, int width) {
 	this->width = width;
 	this->height = height;
 	this->a = createTwoDimArray(this->height, this->width);
 }
+
+
 
 int** twoDimArray::createTwoDimArray(int height, int width) {
 	int **a;

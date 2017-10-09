@@ -21,6 +21,9 @@ public:
 		// uncomplete
 	}
 	twoDimArray& quantize(int level);
+
+	twoDimArray& jj(int size,float** m);
+		
 	void print();
 };
 
