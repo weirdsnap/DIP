@@ -1,7 +1,8 @@
 #include "twoDimArray.h"
 #include <iostream>
 #include <iomanip>
-
+#include <complex>
+#include <cmath>
 twoDimArray& twoDimArray::scale(int height, int width) {
 	twoDimArray &src = *(this);
 	int X, Y;
@@ -85,6 +86,52 @@ twoDimArray& twoDimArray::zt(int * zft) {
 	}
 	return *dst;
 }
+
+//对图像进行离散傅里叶变换
+twoDimArray::twoDimArray& dft() {
+	twoDimArray& src = *this
+	twoDimArray* dst = new twoDimArray(this->height,this->width)
+	//twoDimArray* dsti = new twoDimArray(this->height,this->width)
+	int N = this->height, M = this->width;
+	for (int v = 0; v < N; v++) {
+		for (int u = 0; u < M; u++) {
+
+			//F(u,v) = (x 0-M,y 0-N): f(x,y)[cos(2Pi(ux/M+vy/N)) - j * sin(2Pi(ux/M+vy/N))] 
+
+			for (int y = 0; y < N; y++) {
+				for (int x = 0; x < M; x++) {
+					float afterlog,mod,real,image;
+					// (2Pi(ux/M+vy/N))
+					int fxy = src[y][x] * (x + y % 2 == 1 ) ? -1 : 1;
+					float temp = 2 * 3.1415926 * (u * x / M + v * y / N);
+					// 求出实部虚部
+					real = fxy * cos(temp);
+					image = fxy * sin(temp);
+					//取模
+					mod = sqrt(real*real + image*image);
+					//log
+					afterlog = log(mod);					
+					//量化
+					dst[v][u] = afterlog * 10;
+				}
+			}
+
+		}
+	} 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 twoDimArray::twoDimArray(int height, int width) {

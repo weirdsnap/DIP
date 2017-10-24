@@ -17,14 +17,12 @@ public:
 	}
 	int* operator[](int i);
 	twoDimArray& scale(int height, int width);
-	twoDimArray& scale(int times) {
-		// uncomplete
-	}
 	twoDimArray& quantize(int level);
-
 	twoDimArray& zt(int * zft);
 	twoDimArray& jj(int size,float** m);
 		
+	twoDimArray& dft();
+
 	void print();
 };
 
